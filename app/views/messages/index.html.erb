@@ -1,0 +1,47 @@
+
+<% if @over_ten %>
+ <%= link_to 'Show Previous', '?m=all' %>
+<% end %>
+
+<div class="ui segment">
+ <% @messages.each do |message| %>
+
+ 
+ 
+  <% if message.body %>
+    <% user = User.find(message.user_id) %>
+    	<% if current_user.id == message.user.id %>
+    	<div class="container_d">
+	     <div class="header"><strong><%= user.full_name_or_email %></strong> <%= message.message_time %></div>
+	      <i class="right triangle icon"></i>
+	         <%= message.body %>
+	     <% else %>
+	     <div class="container_d darker">
+ <div class="header"><strong><%= user.full_name_or_email %></strong> <span class="time-right"><%= message.message_time %></span></div>
+	      <i class="right triangle icon"></i>
+	         <%= message.body %>
+	         
+	    <% end %>
+        
+ </div>
+ <% end %>
+<% end %>
+
+</div>
+
+<%= form_for [@conversation, @message], html: {class: "form-control"} do |f| %>
+ <div class="field">
+   <%= f.text_area :body, placeholder: 'Type your message here', :rows => 1, style: 'width:50%;', class: "form-control" %>
+ </div>
+ <div class="field">
+ <%= f.text_field :user_id, value: current_user.id, type: "hidden" %>
+ 
+</div>
+ <div>
+ <br>
+ &nbsp; &nbsp; &nbsp; <%= f.button fa_icon("paper-plane"), class: "btn btn-primary" %>
+ </div>
+
+<% end %>
+</div>
+<!-- <i class="fa fa-paper-plane" aria-hidden="true"></i> -->

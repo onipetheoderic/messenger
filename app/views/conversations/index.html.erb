@@ -1,0 +1,37 @@
+<div class="ui segment">
+ <h3>Mailbox</h3>
+
+ <div class="ui list">
+  <div class="item">
+   <% @conversations.each do |conversation| %> 
+   <!-- if it is you that sent the message or recieve the message -->
+   <% if conversation.sender_id == current_user.id || conversation.reciever_id == current_user.id %>
+    <% if conversation.sender_id == current_user.id %>
+      <% reciever = User.find(conversation.reciever_id) %>
+    <% else %>
+      <% reciever = User.find(conversation.sender_id) %>
+    <% end %>
+    <%= link_to reciever.full_name_or_email, conversation_messages_path(conversation)%>
+   <% end %>
+  <% end %>
+
+  </div>
+ </div>
+</div>
+<div>
+
+
+
+</div>
+<div class="ui segment">
+ <h3>All Users</h3>
+  <div class="ui list">
+   <% @users.each do |user| %>
+    <% if user.id != current_user.id %>
+     <div class="item">
+  <%= user.full_name_or_email%> <%= link_to 'send msg!', conversations_path(sender_id: current_user.id, reciever_id: user.id), method: 'post' %>
+ </div>
+  <% end %>
+ <% end %>
+ </div>
+</div>
